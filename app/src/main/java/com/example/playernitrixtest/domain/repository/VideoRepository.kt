@@ -5,5 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface VideoRepository {
     suspend fun getVideoList(): Flow<List<Video>>
-    suspend fun updateVideoList(): Flow<Unit>
+    suspend fun updateVideoList()
 }

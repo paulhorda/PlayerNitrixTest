@@ -6,7 +6,6 @@ import com.example.playernitrixtest.domain.usecase.GetVideoListUseCase
 import com.example.playernitrixtest.domain.usecase.UpdateVideoCacheUseCase
 import com.example.playernitrixtest.utils.getErrorMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -26,9 +25,6 @@ class VideoListViewModel @Inject constructor(
     private fun updateVideos() {
         viewModelScope.launch {
             updateVideoCacheUseCase.invoke()
-                .catch {
-                    it.getErrorMessage()
-                }
         }
     }
 

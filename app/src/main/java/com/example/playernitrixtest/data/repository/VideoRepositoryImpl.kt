@@ -6,7 +6,6 @@ import com.example.playernitrixtest.data.network.api.VideoApi
 import com.example.playernitrixtest.domain.model.Video
 import com.example.playernitrixtest.domain.repository.VideoRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -24,21 +23,20 @@ class VideoRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun updateVideoList(): Flow<Unit> = flow {
-        val listVideoDto = api.getPopularVideo().videos
+    override suspend fun updateVideoList() {
+        val listVideoDto = api.getPopularVideo()
 
-        videoDao.deleteOldVideos(listVideoDto
-            ?.map {
-                it.id ?: 0
-            } ?: emptyList()
+        videoDao.deleteOldVideos(
+            listVideoDto.videos
+                ?.map {
+                    it.id ?: 0
+                } ?: emptyList()
         )
 
         videoDao.insertAll(
-            listVideoDto?.map { videoDto ->
+            listVideoDto.videos?.map { videoDto ->
                 mapper.mapToEntityItem(videoDto)
             } ?: emptyList()
         )
-
-        emit(Unit)
     }
 }
