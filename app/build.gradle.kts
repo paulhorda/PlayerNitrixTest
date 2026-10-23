@@ -17,6 +17,12 @@ android {
         versionCode = 1
         versionName = "1.0"
 
+        // Set the key in the build environment; never commit a provider credential.
+        val pexelsKey = providers.environmentVariable("PEXELS_API_KEY").orElse("").get()
+        val escapedKey = pexelsKey.replace("\\", "\\\\").replace("\"", "\\\"")
+            .replace("\n", "\\n").replace("\r", "\\r")
+        buildConfigField("String", "PEXELS_API_KEY", "\"$escapedKey\"")
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 

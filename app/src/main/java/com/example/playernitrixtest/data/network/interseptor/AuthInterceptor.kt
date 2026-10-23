@@ -2,11 +2,15 @@ package com.example.playernitrixtest.data.network.interseptor
 
 import com.example.playernitrixtest.utils.Constants.HEADER_KEY
 import com.example.playernitrixtest.utils.Constants.HEADER_VALUE
+import java.io.IOException
 import okhttp3.Interceptor
 import okhttp3.Response
 
 class AuthInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
+        if (HEADER_VALUE.isBlank()) {
+            throw IOException("Set PEXELS_API_KEY in the build environment before requesting videos.")
+        }
         val originalRequest = chain.request()
 
         val newRequest = originalRequest.newBuilder()

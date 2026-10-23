@@ -1,5 +1,6 @@
 package com.example.playernitrixtest.di
 
+import com.example.playernitrixtest.BuildConfig
 import com.example.playernitrixtest.data.network.api.VideoApi
 import com.example.playernitrixtest.data.network.interseptor.AuthInterceptor
 import com.squareup.moshi.Moshi
@@ -28,7 +29,8 @@ class RetrofitModule {
     @Singleton
     fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
         return HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY
+            redactHeader("Authorization")
+            level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BASIC else HttpLoggingInterceptor.Level.NONE
         }
     }
 
